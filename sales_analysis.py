@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # 1. Create a "messy" list of customer data
 data = {
@@ -20,3 +21,20 @@ clean_df = df.drop_duplicates()
 print(f"--- Sales Report ---")
 print(f"Total Revenue from Closed Deals: ${closed_deals_total}")
 print(f"\nCleaned Customer List:\n{clean_df}")
+
+# 5. Group the data by Customer for the chart
+summary = df_clean.groupby('Customer')['Deal_Size'].sum().sort_values(ascending=False)
+
+# 6. Create the Bar Chart
+plt.bar(summary.index, summary.values, color='skyblue', edgecolor='black')
+
+# 7. Add Professional Labels (The "Account Manager" touch)
+plt.title('Sales Pipeline: Total Deal Value by Customer', fontsize=14)
+plt.xlabel('Customer Name', fontsize=12)
+plt.ylabel('Deal Size ($)', fontsize=12)
+plt.xticks(rotation=45) # Tilts names so they don't overlap
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+# 7. Save the chart as an image file
+plt.tight_layout()
+plt.savefig('sales_chart.png')
